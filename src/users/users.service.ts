@@ -35,7 +35,7 @@ export class UsersService {
     return this.usersRepo.find();
   }
 
-  findOne(userName: string) {
+  findOneByUserName(userName: string) {
     return this.usersRepo.findOneBy({ userName });
   }
 
