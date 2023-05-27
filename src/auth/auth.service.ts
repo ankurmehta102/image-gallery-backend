@@ -21,7 +21,11 @@ export class AuthService {
       throw new UnauthorizedException('Incorrect Password!');
     }
     const { password: actualPassword, ...userWithoutPassword } = existedUser;
-    const payload = { username, sub: existedUser?.id };
+    const payload = {
+      username,
+      sub: existedUser?.id,
+      role: userWithoutPassword?.role,
+    };
 
     return {
       usersDetails: userWithoutPassword,

@@ -12,17 +12,22 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { LocalAuthGuard } from 'src/guards/localAuthGuard.guard';
+import { RolesEnum } from './entities/user.entity';
+import { Roles } from 'src/decorators/roles.decorator';
+import { RolesGuard } from 'src/guards/roleGuard.guard';
 
+@UseGuards(LocalAuthGuard)
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post()
+  @Post('signup')
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }
 
-  @UseGuards(LocalAuthGuard)
+  @Roles(RolesEnum.ADMIN)
+  @UseGuards(LocalAuthGuard, RolesGuard)
   @Get()
   findAll() {
     return this.usersService.findAll();
