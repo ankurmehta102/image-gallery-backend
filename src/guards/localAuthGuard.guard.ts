@@ -11,10 +11,15 @@ import { jwtConstant } from 'jwtConstant';
 @Injectable()
 export class LocalAuthGuard implements CanActivate {
   constructor(private jwtService: JwtService) {}
-
+  private excludedRoutes = ['/users/signup'];
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
     const token = this.extractTokenFromHeader(request);
+    const { url } = request;
+    if (this.excludedRoutes.includes(url)) {
+      return true;
+    }
+
     if (!token) {
       throw new UnauthorizedException();
     }
