@@ -8,6 +8,14 @@ import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { jwtConstant } from 'jwtConstant';
 
+export interface JwtPayloadReceived {
+  username: string;
+  sub: number;
+  role: string;
+  iat: number;
+  exp: number;
+}
+
 @Injectable()
 export class LocalAuthGuard implements CanActivate {
   constructor(private jwtService: JwtService) {}
@@ -24,9 +32,12 @@ export class LocalAuthGuard implements CanActivate {
       throw new UnauthorizedException();
     }
     try {
-      const payload = await this.jwtService.verifyAsync(token, {
-        secret: jwtConstant.secret,
-      });
+      const payload: JwtPayloadReceived = await this.jwtService.verifyAsync(
+        token,
+        {
+          secret: jwtConstant.secret,
+        },
+      );
       request['user'] = payload;
     } catch {
       throw new UnauthorizedException();

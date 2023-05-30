@@ -2,7 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from './entities/user.entity';
+import { RolesEnum, User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -21,6 +21,30 @@ export class UsersService {
         throw new BadRequestException('User Already Exist');
       }
       const newUser = this.usersRepo.create(createUserDto);
+      const { password, ...userWithoutPassword } = await this.usersRepo.save(
+        newUser,
+      );
+      return userWithoutPassword;
+    } catch (error) {
+      console.log('error--->', error);
+      throw error;
+    }
+  }
+  async upgradeToAdmin(userId: number) {
+    try {
+      const isUserExist = await this.usersRepo.findOneBy({
+        id: userId,
+      });
+      if (!isUserExist) {
+        throw new BadRequestException('User does not exist.');
+      }
+      if (isUserExist?.role === RolesEnum.ADMIN) {
+        throw new BadRequestException('User is already a admin.');
+      }
+      const newUser = this.usersRepo.create({
+        ...isUserExist,
+        role: RolesEnum.ADMIN,
+      });
       const { password, ...userWithoutPassword } = await this.usersRepo.save(
         newUser,
       );

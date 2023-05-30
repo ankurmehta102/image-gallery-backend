@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -27,7 +28,7 @@ export class UsersController {
   }
 
   @Roles(RolesEnum.ADMIN)
-  @UseGuards(LocalAuthGuard, RolesGuard)
+  @UseGuards(RolesGuard)
   @Get()
   findAll() {
     return this.usersService.findAll();
@@ -46,5 +47,11 @@ export class UsersController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id);
+  }
+  @Roles(RolesEnum.ADMIN)
+  @UseGuards(RolesGuard)
+  @Patch('upgrade-to-admin/:userId')
+  upgradeToAdmin(@Param('userId', ParseIntPipe) userId: number) {
+    return this.usersService.upgradeToAdmin(userId);
   }
 }
