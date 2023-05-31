@@ -63,11 +63,27 @@ export class UsersService {
     return this.usersRepo.findOneBy({ userName });
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(userId: number, updateUserDto: UpdateUserDto) {
+    const isUserExist = await this.usersRepo.findOneBy({
+      id: userId,
+    });
+    if (!isUserExist) {
+      throw new BadRequestException('User does not exist.');
+    }
+    const newUser = this.usersRepo.create({ id: userId, ...updateUserDto });
+    const { password, ...userWithoutPassword } = await this.usersRepo.save(
+      newUser,
+    );
+    return userWithoutPassword;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(userId: number) {
+    const isUserExist = await this.usersRepo.findOneBy({
+      id: userId,
+    });
+    if (!isUserExist) {
+      throw new BadRequestException('User does not exist.');
+    }
+    return this.usersRepo.delete(userId);
   }
 }

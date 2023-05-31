@@ -39,14 +39,17 @@ export class UsersController {
     return this.usersService.findOneByUserName(userName);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+id, updateUserDto);
+  @Patch(':userId')
+  update(
+    @Param('userId', ParseIntPipe) userId: number,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
+    return this.usersService.update(userId, updateUserDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+  @Delete(':userId')
+  remove(@Param('userId', ParseIntPipe) userId: number) {
+    return this.usersService.remove(userId);
   }
   @Roles(RolesEnum.ADMIN)
   @UseGuards(RolesGuard)

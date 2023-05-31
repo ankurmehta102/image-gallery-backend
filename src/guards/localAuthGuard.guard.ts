@@ -7,6 +7,7 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { jwtConstant } from 'jwtConstant';
+import { RolesEnum } from 'src/users/entities/user.entity';
 
 export interface JwtPayloadReceived {
   username: string;
@@ -23,7 +24,7 @@ export class LocalAuthGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
     const token = this.extractTokenFromHeader(request);
-    const { url } = request;
+    const { url, params, method } = request;
     if (this.excludedRoutes.includes(url)) {
       return true;
     }
@@ -38,9 +39,20 @@ export class LocalAuthGuard implements CanActivate {
           secret: jwtConstant.secret,
         },
       );
+      if (
+        url === `/users/${params.userId}` &&
+        payload.role !== RolesEnum.ADMIN &&
+        `${payload.sub}` !== params.userId
+      ) {
+        const errMsg =
+          method === 'PATCH'
+            ? 'You can only update your account.'
+            : 'You can only delete your account.';
+        throw new UnauthorizedException(errMsg);
+      }
       request['user'] = payload;
-    } catch {
-      throw new UnauthorizedException();
+    } catch (error) {
+      throw new UnauthorizedException(error?.message);
     }
     return true;
   }
