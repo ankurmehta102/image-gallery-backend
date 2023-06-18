@@ -28,10 +28,7 @@ export class UsersController {
 
   @Post('signup')
   create(@Body() createUserDto: CreateUserDto) {
-    const port = this.configService.get('port');
-    console.log(port);
-    return;
-    // return this.usersService.create(createUserDto);
+    return this.usersService.create(createUserDto);
   }
 
   @Roles(RolesEnum.ADMIN)

@@ -4,9 +4,9 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
-import { jwtConstant } from 'jwtConstant';
 import { RolesEnum } from 'src/users/entities/user.entity';
 
 export interface JwtPayloadReceived {
@@ -19,7 +19,10 @@ export interface JwtPayloadReceived {
 
 @Injectable()
 export class LocalAuthGuard implements CanActivate {
-  constructor(private jwtService: JwtService) {}
+  constructor(
+    private jwtService: JwtService,
+    private configService: ConfigService,
+  ) {}
   private excludedRoutes = ['/users/signup'];
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
@@ -36,7 +39,7 @@ export class LocalAuthGuard implements CanActivate {
       const payload: JwtPayloadReceived = await this.jwtService.verifyAsync(
         token,
         {
-          secret: jwtConstant.secret,
+          secret: this.configService.get('jwt').secret,
         },
       );
       if (
