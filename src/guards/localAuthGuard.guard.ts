@@ -10,7 +10,7 @@ import { Request } from 'express';
 import { RolesEnum } from 'src/users/entities/user.entity';
 
 export interface JwtPayloadReceived {
-  username: string;
+  userName: string;
   sub: number;
   role: string;
   iat: number;

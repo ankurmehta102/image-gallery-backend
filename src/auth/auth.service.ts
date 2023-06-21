@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { JwtService } from '@nestjs/jwt';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -12,17 +13,23 @@ export class AuthService {
     private readonly userService: UsersService,
     private readonly jwtService: JwtService,
   ) {}
-  async login(username: string, password: string) {
-    const existedUser = await this.userService.findOneByUserName(username);
+  async login(userName: string, password: string) {
+    const existedUser = await this.userService.findOneByUserName(userName);
     if (!existedUser) {
       throw new BadRequestException('User not found.');
     }
-    if (existedUser.password !== password) {
-      throw new UnauthorizedException('Incorrect Password!');
+    const isPasswordMatched = await bcrypt.compare(
+      password,
+      existedUser.password,
+    );
+
+    if (!isPasswordMatched) {
+      throw new BadRequestException('Incorrect Password!');
     }
+
     const { password: actualPassword, ...userWithoutPassword } = existedUser;
     const payload = {
-      username,
+      userName,
       sub: existedUser?.id,
       role: userWithoutPassword?.role,
     };

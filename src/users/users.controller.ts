@@ -38,6 +38,8 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
+  @Roles(RolesEnum.ADMIN)
+  @UseGuards(RolesGuard)
   @Get(':userName')
   findOne(@Param('userName') userName: string) {
     return this.usersService.findOneByUserName(userName);
