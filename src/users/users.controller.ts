@@ -21,10 +21,7 @@ import { ConfigService } from '@nestjs/config';
 @UseGuards(LocalAuthGuard)
 @Controller('users')
 export class UsersController {
-  constructor(
-    private readonly usersService: UsersService,
-    private configService: ConfigService,
-  ) {}
+  constructor(private readonly usersService: UsersService) {}
 
   @Post('signup')
   create(@Body() createUserDto: CreateUserDto) {

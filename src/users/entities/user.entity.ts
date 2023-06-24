@@ -8,14 +8,19 @@ export enum RolesEnum {
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
+
   @Column()
   userName: string;
+
   @Column()
   firstName: string;
-  @Column()
-  lastName: string;
+
   @Column({ default: null })
+  lastName: string;
+
+  @Column()
   password: string;
+
   @Column({ default: RolesEnum.USER })
   role: string;
 }
