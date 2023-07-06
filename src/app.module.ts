@@ -8,6 +8,8 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import configuration from './config/configuration';
 import { validate } from './config/validation';
+import { ImagesModule } from './images/images.module';
+import { Image } from './images/entities/image.entity';
 
 @Module({
   imports: [
@@ -26,7 +28,7 @@ import { validate } from './config/validation';
           username: configService.get('database').username,
           password: configService.get('database').password,
           database: configService.get('database').database,
-          entities: [User],
+          entities: [User, Image],
           synchronize: true,
           extra: {
             trustServerCertificate: true,
@@ -37,6 +39,7 @@ import { validate } from './config/validation';
     }),
     UsersModule,
     AuthModule,
+    ImagesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

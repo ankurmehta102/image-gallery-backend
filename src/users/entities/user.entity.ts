@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Image } from 'src/images/entities/image.entity';
 
 export enum RolesEnum {
   ADMIN = 'admin',
@@ -23,4 +24,7 @@ export class User {
 
   @Column({ default: RolesEnum.USER })
   role: string;
+
+  @OneToMany(() => Image, (image) => image.user)
+  images: Image[];
 }
