@@ -30,7 +30,7 @@ export class ImagesController {
 
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
-  uploadFile(
+  async uploadFile(
     @UploadedFile() file: Express.Multer.File,
     @Req() request: RequestWithUser,
   ) {
@@ -40,14 +40,12 @@ export class ImagesController {
   @Get(':imageId')
   async getImage(
     @Param('imageId', ParseIntPipe) imageId: number,
-    @Res() res: Response,
+    @Req() request: RequestWithUser,
   ) {
-    try {
-      const absolutePath = await this.imagesService.getFile(imageId);
-      res.setHeader('Content-Type', 'image/jpeg');
-      res.sendFile(absolutePath);
-    } catch (error) {
-      throw new BadRequestException(error.message);
-    }
+    return this.imagesService.getFile(
+      imageId,
+      request.user.sub,
+      request.user.role,
+    );
   }
 }

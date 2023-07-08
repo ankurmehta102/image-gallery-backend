@@ -10,6 +10,7 @@ import configuration from './config/configuration';
 import { validate } from './config/validation';
 import { ImagesModule } from './images/images.module';
 import { Image } from './images/entities/image.entity';
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { Image } from './images/entities/image.entity';
     UsersModule,
     AuthModule,
     ImagesModule,
+    CloudinaryModule,
   ],
   controllers: [AppController],
   providers: [AppService],

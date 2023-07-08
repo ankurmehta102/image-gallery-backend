@@ -12,4 +12,9 @@ export default () => ({
     access_exp_time: process.env.JWT_ACCESS_EXP_TIME,
     secret: process.env.JWT_SECRET,
   },
+  cloudinary: {
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.API_KEY,
+    api_secret: process.env.API_SECRET,
+  },
 });

@@ -4,6 +4,7 @@ import { IsEnum, IsNumber, IsString, validateSync } from 'class-validator';
 class EnvironmentVariables {
   @IsNumber()
   PORT: number;
+
   @IsString()
   DB_HOST: string;
   @IsNumber()
@@ -14,6 +15,13 @@ class EnvironmentVariables {
   DB_PASSWORD: string;
   @IsString()
   DB_DATABASE: string;
+
+  @IsString()
+  CLOUD_NAME: string;
+  @IsNumber()
+  API_KEY: number;
+  @IsString()
+  API_SECRET: string;
 }
 
 export function validate(config: Record<string, unknown>) {
