@@ -42,17 +42,17 @@ export class LocalAuthGuard implements CanActivate {
           secret: this.configService.get('jwt').secret,
         },
       );
-      if (
-        url === `/users/${params.userId}` &&
-        payload.role !== RolesEnum.ADMIN &&
-        `${payload.sub}` !== params.userId
-      ) {
-        const errMsg =
-          method === 'PATCH'
-            ? 'You can only update your account.'
-            : 'You can only delete your account.';
-        throw new UnauthorizedException(errMsg);
-      }
+      // if (
+      //   url === `/users/${params.userId}` &&
+      //   payload.role !== RolesEnum.ADMIN &&
+      //   `${payload.sub}` !== params.userId
+      // ) {
+      //   const errMsg =
+      //     method === 'PATCH'
+      //       ? 'You can only update your account.'
+      //       : 'You can only delete your account.';
+      //   throw new UnauthorizedException(errMsg);
+      // }
       request['user'] = payload;
     } catch (error) {
       throw new UnauthorizedException(error?.message);

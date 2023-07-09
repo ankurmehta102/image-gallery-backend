@@ -8,6 +8,7 @@ import {
   Delete,
   UseGuards,
   ParseIntPipe,
+  UseInterceptors,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -16,7 +17,7 @@ import { LocalAuthGuard } from 'src/guards/localAuthGuard.guard';
 import { RolesEnum } from './entities/user.entity';
 import { Roles } from 'src/decorators/roles.decorator';
 import { RolesGuard } from 'src/guards/roleGuard.guard';
-import { ConfigService } from '@nestjs/config';
+import { CheckUserId } from 'src/interceptors/checkUserId.interceptors';
 
 @UseGuards(LocalAuthGuard)
 @Controller('users')
@@ -43,6 +44,7 @@ export class UsersController {
   }
 
   @Patch(':userId')
+  @UseInterceptors(CheckUserId)
   update(
     @Param('userId', ParseIntPipe) userId: number,
     @Body() updateUserDto: UpdateUserDto,
@@ -51,6 +53,7 @@ export class UsersController {
   }
 
   @Delete(':userId')
+  @UseInterceptors(CheckUserId)
   remove(@Param('userId', ParseIntPipe) userId: number) {
     return this.usersService.remove(userId);
   }
