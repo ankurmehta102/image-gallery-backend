@@ -3,7 +3,6 @@ import { UsersService } from './users.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { RolesEnum, User } from './entities/user.entity';
 import { Repository } from 'typeorm';
-import * as bcrypt from 'bcrypt';
 import { BadRequestException } from '@nestjs/common';
 
 let service: UsersService;

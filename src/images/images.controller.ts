@@ -13,8 +13,8 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import {
   JwtPayloadReceived,
   LocalAuthGuard,
-} from 'src/guards/localAuthGuard.guard';
-import { GetUser } from 'src/decorators/getUser.decorator';
+} from '../guards/localAuthGuard.guard';
+import { GetUser } from '../decorators/getUser.decorator';
 
 // interface RequestWithUser extends Request {
 //   user: JwtPayloadReceived;

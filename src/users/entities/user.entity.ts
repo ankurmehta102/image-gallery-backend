@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { Image } from 'src/images/entities/image.entity';
+import { Image } from '../../images/entities/image.entity';
 
 export enum RolesEnum {
   ADMIN = 'admin',

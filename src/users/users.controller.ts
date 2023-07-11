@@ -13,11 +13,11 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { LocalAuthGuard } from 'src/guards/localAuthGuard.guard';
+import { LocalAuthGuard } from '../guards/localAuthGuard.guard';
 import { RolesEnum } from './entities/user.entity';
-import { Roles } from 'src/decorators/roles.decorator';
-import { RolesGuard } from 'src/guards/roleGuard.guard';
-import { CheckUserId } from 'src/interceptors/checkUserId.interceptors';
+import { Roles } from '../decorators/roles.decorator';
+import { RolesGuard } from '../guards/roleGuard.guard';
+import { CheckUserId } from '../interceptors/checkUserId.interceptors';
 
 @UseGuards(LocalAuthGuard)
 @Controller('users')

@@ -4,7 +4,7 @@ import { ImagesController } from './images.controller';
 import { Image } from './entities/image.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
-import { CloudinaryModule } from 'src/cloudinary/cloudinary.module';
+import { CloudinaryModule } from '../cloudinary/cloudinary.module';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Image]), JwtModule, CloudinaryModule],

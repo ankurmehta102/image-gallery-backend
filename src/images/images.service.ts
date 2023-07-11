@@ -2,8 +2,8 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Image } from './entities/image.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
-import { RolesEnum } from 'src/users/entities/user.entity';
+import { CloudinaryService } from '../cloudinary/cloudinary.service';
+import { RolesEnum } from '../users/entities/user.entity';
 
 @Injectable()
 export class ImagesService {
