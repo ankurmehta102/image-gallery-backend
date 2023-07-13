@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { ROLES_KEY, Roles } from 'src/decorators/roles.decorator';
-import { RolesEnum } from 'src/users/entities/user.entity';
+import { ROLES_KEY } from '../decorators/roles.decorator';
+import { RolesEnum } from '../users/entities/user.entity';
 import { JwtPayloadReceived } from './localAuthGuard.guard';
 
 @Injectable()

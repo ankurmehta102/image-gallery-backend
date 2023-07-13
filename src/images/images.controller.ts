@@ -15,6 +15,7 @@ import {
   LocalAuthGuard,
 } from '../guards/localAuthGuard.guard';
 import { GetUser } from '../decorators/getUser.decorator';
+import { ImageValidationPipe } from '../pipes/ImageValidator.pipe';
 
 // interface RequestWithUser extends Request {
 //   user: JwtPayloadReceived;
@@ -28,7 +29,7 @@ export class ImagesController {
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
   async uploadFile(
-    @UploadedFile() file: Express.Multer.File,
+    @UploadedFile(new ImageValidationPipe()) file: Express.Multer.File,
     @GetUser() user: JwtPayloadReceived,
   ) {
     return this.imagesService.saveFile(file, user.sub);
