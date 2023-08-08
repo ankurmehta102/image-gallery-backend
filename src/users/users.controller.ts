@@ -38,9 +38,9 @@ export class UsersController {
 
   @Roles(RolesEnum.ADMIN)
   @UseGuards(RolesGuard)
-  @Get(':userName')
-  findOne(@Param('userName') userName: string) {
-    return this.usersService.findOneByUserName(userName);
+  @Get(':email')
+  findOne(@Param('email') email: string) {
+    return this.usersService.findOneByUserName(email);
   }
 
   @Patch(':userId')

@@ -19,9 +19,9 @@ export class UsersService {
 
   async create(createUserDto: CreateUserDto) {
     try {
-      const { userName, password } = createUserDto;
+      const { email, password } = createUserDto;
       const isUserExist = await this.usersRepo.findOneBy({
-        userName,
+        email,
       });
       if (isUserExist) {
         throw new BadRequestException('User Already Exist');
@@ -69,8 +69,8 @@ export class UsersService {
     return this.usersRepo.find();
   }
 
-  async findOneByUserName(userName: string) {
-    const user = await this.usersRepo.findOneBy({ userName });
+  async findOneByUserName(email: string) {
+    const user = await this.usersRepo.findOneBy({ email });
     if (!user) {
       throw new NotFoundException('User not found.');
     }

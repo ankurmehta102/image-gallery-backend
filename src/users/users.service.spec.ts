@@ -23,7 +23,7 @@ const omit = (object: any, keys: string[]) => {
 const testUsers = (lastName: string | null) => {
   return {
     id: 1,
-    userName: 'ankur',
+    email: 'ankur',
     password: '12345',
     lastName: lastName,
     firstName: 'ankur',
@@ -62,7 +62,7 @@ it('password property should not exist', async () => {
     return testUsers(null);
   });
   const user = await service.create({
-    userName: 'ankur',
+    email: 'ankur',
     firstName: 'mehta',
     password: '12345',
   });
@@ -74,7 +74,7 @@ it('lastName should be null', async () => {
     return testUsers(null);
   });
   const user = await service.create({
-    userName: 'ankur',
+    email: 'ankur',
     firstName: 'mehta',
     password: '12345',
   });
@@ -86,7 +86,7 @@ it('lastName should not be null', async () => {
     return testUsers('Mehta');
   });
   const user = await service.create({
-    userName: 'ankur',
+    email: 'ankur',
     firstName: 'ankur',
     lastName: 'Mehta',
     password: '12345',
@@ -100,7 +100,7 @@ it('user already exist', async () => {
     .mockImplementation(() => [testUsers(null)]);
   await expect(
     service.create({
-      userName: 'ankur',
+      email: 'ankur',
       firstName: 'ankur',
       password: '12345',
     }),

@@ -13,8 +13,8 @@ export class AuthService {
     private readonly userService: UsersService,
     private readonly jwtService: JwtService,
   ) {}
-  async login(userName: string, password: string) {
-    const existedUser = await this.userService.findOneByUserName(userName);
+  async login(email: string, password: string) {
+    const existedUser = await this.userService.findOneByUserName(email);
     if (!existedUser) {
       throw new BadRequestException('User not found.');
     }
@@ -29,7 +29,7 @@ export class AuthService {
 
     const { password: actualPassword, ...userWithoutPassword } = existedUser;
     const payload = {
-      userName,
+      email,
       sub: existedUser?.id,
       role: userWithoutPassword?.role,
     };

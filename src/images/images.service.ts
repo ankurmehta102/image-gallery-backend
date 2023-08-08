@@ -20,6 +20,7 @@ export class ImagesService {
         path: response.secure_url,
         title: file.originalname,
         user: userId,
+        size: `${file.size}`,
       };
       return await this.imagesRepo.save(this.imagesRepo.create(payload));
     } catch (error) {
@@ -44,6 +45,19 @@ export class ImagesService {
         throw new BadRequestException('Image not found.');
       }
       return fileInfo;
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  async getAllImages(userId: number) {
+    try {
+      const table = this.imagesRepo
+        .createQueryBuilder('images')
+        .where('images.user = :userId', { userId });
+
+      const images = await table.getMany();
+      return images;
     } catch (error) {
       throw new BadRequestException(error.message);
     }
